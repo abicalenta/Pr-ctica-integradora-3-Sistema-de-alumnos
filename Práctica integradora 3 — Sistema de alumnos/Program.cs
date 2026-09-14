@@ -26,3 +26,5 @@ alumno1.Nombre = "ana maria";
 Console.WriteLine("\nDespués de modificar alumno1:");
 Console.WriteLine($"Alumno 1: {alumno1.Nombre}");
 Console.WriteLine($"Alumno 2: {alumno2.Nombre}");
+
+Console.ReadLine();
