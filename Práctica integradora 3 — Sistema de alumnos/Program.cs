@@ -239,7 +239,23 @@ public class Persona
         Nombre = nombre;
         Documento = documento;
     }
+
+    public virtual string Presentarse()
+    {
+        return $"Hola, soy {Nombre}.";
+    }
+
+    public override string Presentarse()
+    {
+        return $"Hola, soy {Nombre}, alumno con legajo {Legajo}.";
+    }
+
+    public override string Presentarse()
+    {
+        return $"Hola, soy {Nombre}, y dicto {Materia}.";
+    }
 }
+
 
 public class Alumno : Persona
 {
@@ -280,4 +296,31 @@ public class Profesor : Persona
     {
         Materia = materia;
     }
+}
+
+public class Preceptor : Persona
+{
+    public string turno { get; set; }
+
+    public Preceptor(string nombre, string documento, string turno) : base(nombre, documento)
+    {
+        Turno = turno;
+    }
+
+    public override string Presentarse()
+    {
+        return $"Hola, soy {Nombre}, preceptor del turno {Turno}.";
+    }
+}
+
+List<Persona> persona = new List<Persona>
+{
+    new Alumno("Ana Perez", "46652014", 1234),
+    new Profesor("marta dias", "44849473", "Programacion"),
+    new Preceptor("carla gomez", "22807866", "mañana")
+};
+
+foreach (Persona p in personas)
+{
+    Console.WriteLine(p.Presentarse());
 }
