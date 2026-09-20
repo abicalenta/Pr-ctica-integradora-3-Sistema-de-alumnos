@@ -14,7 +14,38 @@ public class Alumno
         Nota1 = Nota1;
         Nota2 = Nota2;
     }
+
+    public double Promedio()
+    {
+        return (Nota1 + Nota2) / 2.0;
+    }
+
+    public bool EstaAprobado()
+    {
+        return Promedio() >= 6.0;
+    }
+    public void SubirNota()
+    {
+        if (Nota1 + 1 <= 10)
+        {
+            Nota1 += 1;
+        }
+        else
+        {
+            Nota1 = 10;
+        }
+
+        if (Nota2 + 1 <= 10)
+        {
+            Nota2 += 1;
+        }
+        else
+        {
+            Nota2 = 10;
+        }
+    }
 }
+
 
 
 Alumno alumno1 = new Alumno("ana", 1001, 8.5, 9.0);
@@ -29,37 +60,6 @@ alumno1.Nombre = "ana maria";
 Console.WriteLine("\nDespués de modificar alumno1:");
 Console.WriteLine($"Alumno 1: {alumno1.Nombre}");
 Console.WriteLine($"Alumno 2: {alumno2.Nombre}");
-
-public double Promedio()
-{
-    return (Nota1 + Nota2) / 2.0;
-}
-
-public bool EstaAprobado()
-{
-    return Promedio() >= 6.0;
-}
-
-public void SubiNota()
-{
-    if (Nota1 + 1 <= 10)
-    {
-        Nota1 += 1;
-    }
-    else
-    {
-        Nota1 = 10;
-    }
-
-    if (Nota2 + 1 <= 10)
-    {
-        Nota2 += 1;
-    }
-    else
-    {
-        Nota2 = 10;
-    }
-}
 
 
 Alumno alumno1 = new Alumno("Ana Pérez", 1234, 8.0, 6.0);
