@@ -324,3 +324,119 @@ foreach (Persona p in personas)
 {
     Console.WriteLine(p.Presentarse());
 }
+
+public interface IExportable
+{
+    string ExportarLinea();
+    string ExportarEncabezado();
+}
+
+public class Materia : IExportable
+{
+    public string Codigo { get; set; }
+    public string Nombre { get; set; }
+    public int CantidadHoras { get; set; }
+
+    public Materia(string codigo, string nombre, int cnatidadHoras)
+    {
+        Codigo = codigo;
+        Nombre = nombre;
+        CantidadHoras = cnatidadHoras;
+    }
+
+    public string ExportarLinea()
+    {
+        return $"MATERIA;{Codigo};{Nombre};{CantidadHoras}";
+    }
+
+    public string ExportarEncabezado()
+    {
+        return "TIPO;CODIGO;NOMBRE;HORAS";
+    }
+}
+
+public class Alumno : Persona, IExportable
+{
+    public int Legajo { get; private set; }
+    public double Nota1 { get; private set; }
+    public double Nota2 { get; private set; }
+
+    public Alumno(string nombre, string documento, int legajo) : base(nombre, documento)
+    {
+        Legajo = legajo;
+    }
+
+    public bool CargarNotas(double nota1, double nota2)
+    {
+        if (nota1 >= 0 && nota1 <= 10 && nota2 >= 0 && nota2 <= 10)
+        {
+            Nota1 = nota1;
+            Nota2 = nota2;
+            return true;
+        }
+        return false;
+    }
+    public double Promedio() => (Nota1 + Nota2) / 2.0;
+    public bool EstaAprobado() => Promedio() >= 6.0;
+
+    public override string ToString()
+    {
+        return $"{Legajo} {Nombre} (promedio: {Promedio()})";
+    }
+
+    public override string Presentarse()
+    {
+        return $"Hola, soy {Nombre}, alumno con legajo {Legajo}.";
+    }
+
+    public string ExportarLinea()
+    {
+        return $"ALUMNO;{Legajo};{Nombre};{Promedio()}";
+    }
+
+    public string ExportarEncabezado()
+    {
+        return "TIPO;LEGAJO;NOMBRE;PROMEDIO";
+    }
+}
+
+public class Profesor : Persona, IExportable
+{
+    public string Materia { get; set; }
+
+    public Profesor(string nombre, string documento, string materia) : base(nombre, documento)
+    {
+        Materia = materia;
+    }
+
+    public override string Presentarse()
+    {
+        return $"Hola, soy {Nombre} y dicto {Materia}.";
+    }
+
+    public string ExportarLinea()
+    {
+        return $"PROFESOR;{Nombre};{Materia}";
+    }
+
+    public string ExportarEncabezado()
+    {
+        return "TIPO;NOMBRE;MATERIA";
+    }
+}
+
+Alumno alum = new Alumno("ana perez", 46652014, 1234);
+alum.CargarNotas(7.0, 7.0);
+
+List<IExportable> exportables = new List<IExportable>
+{
+    alum,
+    new Profesor("Marta Díaz", "30987654", "Programación"),
+    new Materia("PROG1", "Programación I", 128)
+};
+
+Console.WriteLine("\n--- EXPORTACIÓN A TEXTO ---");
+foreach (IExportable item in exportables)
+{
+    Console.WriteLine(item.ExportarLinea());
+}
