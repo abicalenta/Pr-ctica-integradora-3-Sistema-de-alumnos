@@ -206,4 +206,78 @@ switch (opcion)
         }
         break;
 
+    case "5":
+        int aprobados = 0;
+        foreach (Alumno a in alumnos)
+        {
+            if (a.EstaAprobado())
+            {
+                aprobados++;
+            }
+        }
+        Console.WriteLine($"Cantidad de alumnos aprobados: {aprobados}");
+        break;
+
+    case "6":
+        salir = true;
+        Console.WriteLine("fin del programa.");
+        break;
+
+    default:
+        Console.WriteLine("opcion no valida. Intente nuevamente.");
+        break;
+
+}
+
+public class Persona
+{
+    public string Nombre { get; set; }
+    public string Documento { get; set; }
+
+    public Persona(string Nombre, string Documento)
+    {
+        Nombre = nombre;
+        Documento = documento;
+    }
+}
+
+public class Alumno : Persona
+{
+    public int Legajo { get; private set; }
+    public double Nota1 { get; private set; }
+    public double Nota2 { get; private set; }
+
+    public Alumno(string nombre, string documento, int legajo) : base(nombre, documento)
+    {
+        Legajo = legajo;
+    }
+
+    public bool CargarNotas(double nota1, double nota2)
+    {
+        if (nota1 >= 0 && nota1 <= 10 && nota2 >= 0 && nota2 <= 10)
+        {
+            Nota1 = nota1;
+            Nota2 = nota2;
+            return true;
+        }
+        return false;
+    }
+
+    public double Promedio() => (Nota1 + Nota2) / 2.0;
+    public bool EstaAprobado() => Promedio() >= 6.0;
+
+    public override string ToString()
+    {
+        return $"{Legajo} {Nombre} (promedio: {Promedio()})";
+    }
+}
+
+public class Profesor : Persona
+{
+    public string Materia { get; set; }
+
+    public Profesor(string nombre, string documento, string materia) : base(nombre, documento)
+    {
+        Materia = materia;
+    }
 }
