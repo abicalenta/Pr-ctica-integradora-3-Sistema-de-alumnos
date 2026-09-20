@@ -97,3 +97,113 @@ if (alumno.CargarNotas(8.0, 6.0))
 {
     Console.WriteLine($"Notas cargadas con exito: {alumno}");
 }
+
+List<Alumno> alumnos = new List<Alumno>();
+bool salir = false;
+
+while (!salir)
+{
+    Console.WriteLine("\n---MENÚ DE ALUMNOS---");
+    Console.WriteLine("1. agregar un alumno");
+    Console.WriteLine("2. lista de todos los alumnos");
+    Console.WriteLine("3. buscar un alumno por su legajo");
+    Console.WriteLine("4. mostrar el promedio general del curso");
+    Console.WriteLine("5. mostra cuantos alumnos estan aprobados");
+    Console.WriteLine("6. salir");
+    Console.Write("opcion: ");
+}
+
+string opcion = Console.ReadLine();
+
+switch (opcion)
+{
+    case "1":
+        Console.Write("Nombre: ");
+        string nombre = Console.ReadLine();
+
+        Console.Write("Legajo: ");
+        if (!int.TryParse(Console.ReadLine(), out int legajo))
+        {
+            Console.WriteLine("El legajo debe ser un numero entero. ");
+            break;
+        }
+
+        Alumno nuevo = new Alumno(nombre, legajo);
+
+        Console.Write("Nota 1: ");
+        double.TryParse(Console.ReadLine(), out double n1);
+
+        Console.Write("Nota 2: ");
+        double.TryParse(Console.ReadLine(), out double n2);
+
+        if (nuevo.CargarNotas(n1, n2))
+        {
+            alumno.Add(nuevo);
+            Console.WriteLine("Alumno agregado correctamente.");
+
+        }
+        else
+        {
+            Console.WriteLine("error; las notas deben ser entre 0 y 10.");
+
+        }
+        break;
+
+    case "2":
+        if (alumnos.Count == 0)
+        {
+            Console.WriteLine("No hay alumnos registrados.");
+        }
+        else
+        {
+            Console.WriteLine("\nListado:");
+            foreach (Alumno a in alumnos)
+            {
+                Console.WriteLine(a);
+            }
+        }
+        break;
+
+    case "3":
+        Console.Write("Ingrese legajo a buscar:");
+        if (int.TryParse(Console.ReadLine(), out int legBuscando))
+        {
+            Alumno encontrado = null;
+            foreach (Alumno a in alumnos)
+            {
+                if (a.Legajo == legBuscando)
+                {
+                    encontrado = a;
+                    break;
+                }
+            }
+            if (encontrado != null)
+            {
+                Console.WriteLine($"Encontrado: {encontrado}");
+            }
+
+        }
+        else
+        {
+            Console.WriteLine("Formato de legajo incorrecto.");
+        }
+        break;
+
+    case "4":
+        if (alumnos.Count == 0)
+        {
+            Console.WriteLine("Promedio no disponible: aún no hay alumnos cargados.");
+        }
+        else
+        {
+            double sumaTotal = 0;
+            foreach (Alumno a in alumnos)
+            {
+                sumaTotal += a.Promedio();
+            }
+            double promedioGral = sumaTotal / alumnos.Count;
+            Console.WriteLine($"Promedio general del curso: {promedioGral:F2}");
+        }
+        break;
+
+}
